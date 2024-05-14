@@ -3,8 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>A QR Code Generator for RNDdave</title>
+  <title>QR Code Generator</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    #preview {
+      max-width: 256px;
+      max-height: 256px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
   <h1>QR Code Generator</h1>
@@ -16,14 +25,18 @@
     <label for="logo">Logo image (PNG or JPEG):</label>
     <input type="file" id="logo" accept="image/png, image/jpeg">
   </div>
+  <button id="generateBtn" type="button">Generate QR Code</button>
   <div>
     <canvas id="qrcode"></canvas>
   </div>
+  <div id="preview"></div>
 
   <script>
     const qrcodeCanvas = document.getElementById('qrcode');
     const dataInput = document.getElementById('data');
     const logoInput = document.getElementById('logo');
+    const previewContainer = document.getElementById('preview');
+    const generateBtn = document.getElementById('generateBtn');
 
     function generateQRCode() {
       const data = dataInput.value;
@@ -41,13 +54,22 @@
             excavate: true,
           },
         });
+
+        // Clear previous preview
+        previewContainer.innerHTML = '';
+
+        // Create new preview image
+        const previewImg = new Image();
+        previewImg.src = qrcodeCanvas.toDataURL();
+        previewImg.style.maxWidth = '100%';
+        previewImg.style.maxHeight = '100%';
+        previewContainer.appendChild(previewImg);
       } else {
         alert('Please enter data and select a logo image.');
       }
     }
 
-    dataInput.addEventListener('input', generateQRCode);
-    logoInput.addEventListener('change', generateQRCode);
+    generateBtn.addEventListener('click', generateQRCode);
   </script>
 </body>
 </html>
