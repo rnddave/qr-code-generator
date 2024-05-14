@@ -63,31 +63,37 @@
 
         const reader = new FileReader();
         reader.onload = function() {
-          const resizedLogoSrc = resizeImage(new Image(), logoMaxWidth, logoMaxHeight);
+          const img = new Image();
+          img.onload = function() {
+            const resizedLogoSrc = resizeImage(this, logoMaxWidth, logoMaxHeight);
+            console.log('Resized Logo Source:', resizedLogoSrc);
 
-          const qrcode = new QRCode(qrcodeCanvas, {
-            text: data,
-            width: 256,
-            height: 256,
-            imageSettings: {
-              src: resizedLogoSrc,
-              width: logoMaxWidth,
-              height: logoMaxHeight,
-              excavate: true,
-            },
-          });
+            const qrcode = new QRCode(qrcodeCanvas, {
+              text: data,
+              width: 256,
+              height: 256,
+              imageSettings: {
+                src: resizedLogoSrc,
+                width: logoMaxWidth,
+                height: logoMaxHeight,
+                excavate: true,
+              },
+            });
+            console.log('QR Code generated:', qrcode);
 
-          // Clear previous preview
-          previewContainer.innerHTML = '';
+            // Clear previous preview
+            previewContainer.innerHTML = '';
 
-          // Create new preview image
-          const previewImg = new Image();
-          previewImg.onload = function() {
-            previewContainer.appendChild(this);
+            // Create new preview image
+            const previewImg = new Image();
+            previewImg.onload = function() {
+              previewContainer.appendChild(this);
+            }
+            previewImg.src = qrcodeCanvas.toDataURL();
+            previewImg.style.maxWidth = '100%';
+            previewImg.style.maxHeight = '100%';
           }
-          previewImg.src = qrcodeCanvas.toDataURL();
-          previewImg.style.maxWidth = '100%';
-          previewImg.style.maxHeight = '100%';
+          img.src = reader.result;
         }
         reader.readAsDataURL(logo);
       } else {
