@@ -18,12 +18,13 @@
             <option value="png">PNG</option>
             <option value="svg">SVG</option>
         </select><br><br>
-        <button type="submit">Generate QR Code</button>
     </form>
+    <button id="generate-btn">Generate QR Code</button>
     <div id="qr-preview"></div>
     <a id="download-link" style="display:none;">Download</a>
 
-    <script src="https://cdn.jsdelivr.net/npm/qrcode"></script>
+    <!-- Including the correct QRCode library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
     <script src="script.js"></script>
 </body>
