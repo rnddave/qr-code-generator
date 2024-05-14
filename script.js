@@ -1,3 +1,6 @@
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+
+
 document.addEventListener('DOMContentLoaded', function() {
     const urlInput = document.getElementById('url');
     const logoInput = document.getElementById('logo');
