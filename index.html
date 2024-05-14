@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>QR Code Generator</h1>
+    <form id="qr-form">
+        <label for="url">Target URL:</label>
+        <input type="text" id="url" name="url" required><br><br>
+        <label for="logo">Logo Image:</label>
+        <input type="file" id="logo" name="logo" accept="image/*" required><br><br>
+        <label for="format">Choose format:</label>
+        <select id="format" name="format" required>
+            <option value="png">PNG</option>
+            <option value="svg">SVG</option>
+        </select><br><br>
+        <button type="submit">Generate QR Code</button>
+    </form>
+    <div id="qr-preview"></div>
+    <a id="download-link" style="display:none;">Download</a>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcode"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
