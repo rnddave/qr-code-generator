@@ -4,7 +4,7 @@ Using **Prompt Engineering** and **claude.ai** to generate the code, we have a Q
 
 ```prompt
 
-Describe steps required for a QR Code Generator
+Describe steps required for a QR Code Generator that includes a companies logo
 ```
 
 ## Output 1
@@ -38,3 +38,258 @@ It's important to note that when overlaying the logo onto the QR code, you shoul
 
 Additionally, if you're using a library, you may need to handle any necessary image processing or resizing of the logo before overlaying it onto the QR code.
 ```
+
+Now we ask **Claude.ai** to produce the actual code: 
+
+```prompt
+using the above steps, create a QR code generator using javascript
+```
+
+## Output 2
+
+```html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Generator</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+  <h1>QR Code Generator</h1>
+  <div>
+    <label for="data">Data to encode:</label>
+    <input type="text" id="data" value="https://example.com">
+  </div>
+  <div>
+    <label for="logo">Logo image (PNG or JPEG):</label>
+    <input type="file" id="logo" accept="image/png, image/jpeg">
+  </div>
+  <div>
+    <canvas id="qrcode"></canvas>
+  </div>
+
+  <script>
+    const qrcodeCanvas = document.getElementById('qrcode');
+    const dataInput = document.getElementById('data');
+    const logoInput = document.getElementById('logo');
+
+    function generateQRCode() {
+      const data = dataInput.value;
+      const logo = logoInput.files[0];
+
+      if (data && logo) {
+        const qrcode = new QRCode(qrcodeCanvas, {
+          text: data,
+          width: 256,
+          height: 256,
+          imageSettings: {
+            src: URL.createObjectURL(logo),
+            width: 64,
+            height: 64,
+            excavate: true,
+          },
+        });
+      } else {
+        alert('Please enter data and select a logo image.');
+      }
+    }
+
+    dataInput.addEventListener('input', generateQRCode);
+    logoInput.addEventListener('change', generateQRCode);
+  </script>
+</body>
+</html>
+```
+---
+
+# Testing
+
+I wanted to see if this was working, so deployed via Netlify, The page loaded and there was a box asking for the URL and the logo you wanted in the QR Code, the main issue was that I couldn't see any output, nor could I see an option to actually generate the QR Code. 
+
+```prompt
+can you add a preview of the generated QR code and a submit button which calls the generateQRCode function
+```
+
+## Output 3
+
+```html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Generator</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    #preview {
+      max-width: 256px;
+      max-height: 256px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>QR Code Generator</h1>
+  <div>
+    <label for="data">Data to encode:</label>
+    <input type="text" id="data" value="https://example.com">
+  </div>
+  <div>
+    <label for="logo">Logo image (PNG or JPEG):</label>
+    <input type="file" id="logo" accept="image/png, image/jpeg">
+  </div>
+  <button id="generateBtn" type="button">Generate QR Code</button>
+  <div>
+    <canvas id="qrcode"></canvas>
+  </div>
+  <div id="preview"></div>
+
+  <script>
+    const qrcodeCanvas = document.getElementById('qrcode');
+    const dataInput = document.getElementById('data');
+    const logoInput = document.getElementById('logo');
+    const previewContainer = document.getElementById('preview');
+    const generateBtn = document.getElementById('generateBtn');
+
+    function generateQRCode() {
+      const data = dataInput.value;
+      const logo = logoInput.files[0];
+
+      if (data && logo) {
+        const qrcode = new QRCode(qrcodeCanvas, {
+          text: data,
+          width: 256,
+          height: 256,
+          imageSettings: {
+            src: URL.createObjectURL(logo),
+            width: 64,
+            height: 64,
+            excavate: true,
+          },
+        });
+
+        // Clear previous preview
+        previewContainer.innerHTML = '';
+
+        // Create new preview image
+        const previewImg = new Image();
+        previewImg.src = qrcodeCanvas.toDataURL();
+        previewImg.style.maxWidth = '100%';
+        previewImg.style.maxHeight = '100%';
+        previewContainer.appendChild(previewImg);
+      } else {
+        alert('Please enter data and select a logo image.');
+      }
+    }
+
+    generateBtn.addEventListener('click', generateQRCode);
+  </script>
+</body>
+</html>
+```
+
+The new page had the required button and a space for the live preview of a generated QR Code, but testing did not produce the live preview. 
+
+```prompt
+
+The generated QR Code is not appearing in the preview window, can you find any problems with your code?
+```
+
+## Output 4
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Generator</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    #preview {
+      max-width: 256px;
+      max-height: 256px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>QR Code Generator</h1>
+  <div>
+    <label for="data">Data to encode:</label>
+    <input type="text" id="data" value="https://example.com">
+  </div>
+  <div>
+    <label for="logo">Logo image (PNG or JPEG):</label>
+    <input type="file" id="logo" accept="image/png, image/jpeg">
+  </div>
+  <button id="generateBtn" type="button">Generate QR Code</button>
+  <div>
+    <canvas id="qrcode"></canvas>
+  </div>
+  <div id="preview"></div>
+
+  <script>
+    const qrcodeCanvas = document.getElementById('qrcode');
+    const dataInput = document.getElementById('data');
+    const logoInput = document.getElementById('logo');
+    const previewContainer = document.getElementById('preview');
+    const generateBtn = document.getElementById('generateBtn');
+
+    function generateQRCode() {
+      const data = dataInput.value;
+      const logo = logoInput.files[0];
+
+      if (data && logo) {
+        const qrcode = new QRCode(qrcodeCanvas, {
+          text: data,
+          width: 256,
+          height: 256,
+          imageSettings: {
+            src: URL.createObjectURL(logo),
+            width: 64,
+            height: 64,
+            excavate: true,
+          },
+        });
+
+        // Clear previous preview
+        previewContainer.innerHTML = '';
+
+        // Create new preview image
+        const previewImg = new Image();
+        previewImg.onload = function() {
+          previewContainer.appendChild(this);
+        }
+        previewImg.src = qrcodeCanvas.toDataURL();
+        previewImg.style.maxWidth = '100%';
+        previewImg.style.maxHeight = '100%';
+      } else {
+        alert('Please enter data and select a logo image.');
+      }
+    }
+
+    generateBtn.addEventListener('click', generateQRCode);
+  </script>
+</body>
+</html>
+```
+
+Additionally;
+
+```output
+
+The issue was that the previewImg.src was being set before the previewImg was appended to the previewContainer. This caused the image not to render correctly in the preview window.
+To fix this, we added an onload event handler to the previewImg element. The previewImg is now appended to the previewContainer inside the onload callback function, which is triggered after the image has finished loading.
+With this change, the generated QR code should now appear correctly in the preview window.
+
+```
+
