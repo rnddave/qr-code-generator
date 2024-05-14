@@ -2,7 +2,7 @@ document.getElementById('qr-form').addEventListener('submit', async function(eve
     event.preventDefault();
     
     const formData = new FormData(this);
-    const response = await fetch('/generate-qr.js', {
+    const response = await fetch('generate-qr.js', {
         method: 'POST',
         body: formData
     });
