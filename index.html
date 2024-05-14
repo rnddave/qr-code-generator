@@ -30,6 +30,7 @@
     <canvas id="qrcode"></canvas>
   </div>
   <div id="preview"></div>
+  <button id="downloadBtn" type="button" disabled>Download QR Code</button>
 
   <script>
     const qrcodeCanvas = document.getElementById('qrcode');
@@ -37,6 +38,7 @@
     const logoInput = document.getElementById('logo');
     const previewContainer = document.getElementById('preview');
     const generateBtn = document.getElementById('generateBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
 
     function resizeImage(image, maxWidth, maxHeight) {
       const canvas = document.createElement('canvas');
@@ -66,7 +68,6 @@
           const img = new Image();
           img.onload = function() {
             const resizedLogoSrc = resizeImage(this, logoMaxWidth, logoMaxHeight);
-            console.log('Resized Logo Source:', resizedLogoSrc);
 
             const qrcode = new QRCode(qrcodeCanvas, {
               text: data,
@@ -79,7 +80,6 @@
                 excavate: true,
               },
             });
-            console.log('QR Code generated:', qrcode);
 
             // Clear previous preview
             previewContainer.innerHTML = '';
@@ -88,6 +88,7 @@
             const previewImg = new Image();
             previewImg.onload = function() {
               previewContainer.appendChild(this);
+              downloadBtn.disabled = false; // Enable download button
             }
             previewImg.src = qrcodeCanvas.toDataURL();
             previewImg.style.maxWidth = '100%';
@@ -101,7 +102,15 @@
       }
     }
 
+    function downloadQRCode() {
+      const downloadLink = document.createElement('a');
+      downloadLink.download = 'qr_code_with_logo.png';
+      downloadLink.href = qrcodeCanvas.toDataURL('image/png');
+      downloadLink.click();
+    }
+
     generateBtn.addEventListener('click', generateQRCode);
+    downloadBtn.addEventListener('click', downloadQRCode);
   </script>
 </body>
 </html>
