@@ -60,10 +60,12 @@
 
         // Create new preview image
         const previewImg = new Image();
+        previewImg.onload = function() {
+          previewContainer.appendChild(this);
+        }
         previewImg.src = qrcodeCanvas.toDataURL();
         previewImg.style.maxWidth = '100%';
         previewImg.style.maxHeight = '100%';
-        previewContainer.appendChild(previewImg);
       } else {
         alert('Please enter data and select a logo image.');
       }
