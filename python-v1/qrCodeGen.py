@@ -13,21 +13,21 @@ qr = qrcode.QRCode(
 )
 
 # Add the data to encode
-qr.add_data('https://example.com')
+qr.add_data('https://www.facebook.com/AnotherLevelscrapmetal')
 qr.make(fit=True)
 
 # Generate the QR code image
 img = qr.make_image(fill_color="black", back_color="white")
 
 # Open the logo image
-logo = Image.open("logo.png")
+logo = Image.open("another-level-logo-new.png")
 
 # Calculate the size and position of the logo
 logo_size = int(img.size[0] / 4)
 logo_pos = ((img.size[0] - logo_size) // 2, (img.size[1] - logo_size) // 2)
 
 # Create a styled QR code image
-styled_img = StyledPilImage(img.size, back_color="white")
+styled_img = StyledPilImage(img.size, back_color="white", fill_color="black")
 
 # Add the QR code to the styled image
 styled_img.paste_image(
